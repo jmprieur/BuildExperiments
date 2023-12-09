@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!--
+      From the build pipeline (or the command line), you can set 3 variables:
+      - Version which is the full name of the version such as 1.0.0-preview
+      - VersionPrefix (which will be the version number to build. The default is 1.0.0)
+      - VersionSuffix (which will be a custom suffix such as -preview1, -beta)
+
+      If you don't set the version explicitly, it will be the concatenation of the version prefix, and the preview version suffix
+      which is computed from the date of the build.
+
+      For instance:
+      Command                                   Produced package
+      _______________________________________________________________________________________________
+      - dotnet pack                             BuildExperiments.1.0.0-preview-41209152623.nupkg
+      - dotnet pack /p:Version=2.3.4            BuildExperiments.2.3.4.nupkg
+      - dotnet pack /p:Version=2.3.4-beta       BuildExperiments.2.3.4-beta.nupkg
+      - dotnet pack /p:VersionPrefix=2.0.0      BuildExperiments.2.0.0-preview-41209152922.nupkg
+      - dotnet pack /p:VersionSuffix=preview2   BuildExperiments.1.0.0-preview2.nupkg
+
+    -->
+    <PreviewVersionSuffix>preview-$([System.DateTime]::Now.AddYears(-2019).Year)$([System.DateTime]::Now.ToString("MMddHHmmss"))</PreviewVersionSuffix>
+    <VersionSuffix Condition="'$(Version)' == ''">$(PreviewVersionSuffix)</VersionSuffix>
+  </PropertyGroup>
+
+</Project>
