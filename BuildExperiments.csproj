@@ -23,9 +23,36 @@
       - dotnet pack /p:VersionPrefix=2.0.0      BuildExperiments.2.0.0-preview-41209152922.nupkg
       - dotnet pack /p:VersionSuffix=preview2   BuildExperiments.1.0.0-preview2.nupkg
 
+      The versions properties of AssemblyInfo are generated automatically from version.
+      For details, see https://learn.microsoft.com/dotnet/core/project-sdk/msbuild-props#generateassemblyinfo
+
     -->
     <PreviewVersionSuffix>preview-$([System.DateTime]::Now.AddYears(-2019).Year)$([System.DateTime]::Now.ToString("MMddHHmmss"))</PreviewVersionSuffix>
     <VersionSuffix Condition="'$(Version)' == ''">$(PreviewVersionSuffix)</VersionSuffix>
   </PropertyGroup>
+
+  <Target Name="TestMessage" AfterTargets="Build" >
+    <Message Text="Version = $(Version)" Importance="high"/>
+    <Message Text="VersionPrefix = $(VersionPrefix)" Importance="high"/>
+    <Message Text="VersionSuffix = $(VersionSuffix)" Importance="high"/>
+    <Message Text="PackageVersion = $(PackageVersion)" Importance="high"/>
+    <Message Text="AssemblyVersion = $(AssemblyVersion)" Importance="high"/>
+    <Message Text="FileVersion = $(FileVersion)" Importance="high"/>
+    <Message Text="InformationalVersion = $(InformationalVersion)" Importance="high"/>
+
+  <!-- 
+    dotnet build:
+     produces
+     
+      Version = 1.0.0-preview-41209161459
+      VersionPrefix = 1.0.0
+      VersionSuffix = preview-41209161459
+      PackageVersion = 1.0.0-preview-41209161459
+      AssemblyVersion = 1.0.0.0
+      FileVersion = 1.0.0.0
+      InformationalVersion = 1.0.0-preview-41209161459+52828ea44cbcd5009fd41b606563b127e2cdff04
+  -->
+
+  </Target>
 
 </Project>
