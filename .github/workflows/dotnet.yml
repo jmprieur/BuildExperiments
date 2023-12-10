@@ -22,4 +22,4 @@ jobs:
         dotnet-version: 8.x
 
     - name: Pack
-      run: dotnet pack --verbosity normal
+      run: dotnet pack -v m
